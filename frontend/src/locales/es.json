@@ -1,11 +1,9 @@
 {
   "navigation": {
-    "farmwise": "FarmWise",
+    "home": "Inicio",
     "login": "Iniciar Sesión",
     "getStarted": "Comenzar",
-    "backToDashboard": "Volver al Panel",
-    "backToHome": "Volver al Inicio",
-    "logout": "Cerrar Sesión"
+    "backToDashboard": "Volver al Panel"
   },
   "homepage": {
     "title": {
@@ -14,58 +12,35 @@
     },
     "description": "Plataforma de asesoría agrícola impulsada por IA que ayuda a los agricultores a optimizar el riego, detectar plagas temprano y maximizar el rendimiento de cultivos con insights en tiempo real.",
     "cta": {
-      "primary": "Comienza Tu Viaje Agrícola",
+      "primary": "Comienza tu Viaje Agrícola",
       "secondary": "Ver Demo"
     },
-    "features": {
-      "irrigation": {
-        "title": "Riego Inteligente",
-        "description": "Obtén horarios de riego precisos basados en pronósticos del clima, humedad del suelo y necesidades de cultivos."
-      },
-      "pestDetection": {
-        "title": "Detección de Plagas",
-        "description": "Monitoreo acústico avanzado y análisis de IA detectan infestaciones de plagas tempranamente."
-      },
-      "dataAnalytics": {
-        "title": "Análisis de Datos",
-        "description": "Análisis e insights comprensivos para ayudarte a tomar decisiones agrícolas informadas."
-      }
-    },
-    "callToAction": {
-      "title": "¿Listo para Transformar tu Granja?",
-      "description": "Únete a cientos de agricultores que ya están usando FarmWise para aumentar rendimientos y proteger cultivos.",
-      "button": "Comenzar Gratis"
-    },
-    "footer": {
-      "description": "Sistema de Asesoría Agrícola Inteligente - Empoderando agricultores con insights de IA",
-      "copyright": "© 2025 FarmWise. Todos los derechos reservados."
-    },
     "hero": {
-      "heading": "Revolucionando el futuro de la agricultura con IA",
-      "description": "Optimiza el rendimiento de los cultivos y la gestión de recursos con soluciones de IA de vanguardia para la agricultura moderna. Únete a miles de agricultores que logran mejores resultados.",
+      "heading": "Revolucionando el Futuro de la Agricultura con IA",
+      "description": "Mejora el rendimiento de cultivos y gestión de recursos con soluciones avanzadas de IA para agricultura moderna. Únete a miles de agricultores que ya logran mejores resultados.",
       "getStarted": "Comenzar",
       "learnMore": "Saber Más"
     },
     "features": {
-      "title": "¿Por qué elegir la Agricultura Inteligente?",
+      "title": "¿Por qué Elegir Agricultura Inteligente?",
       "aiAnalytics": {
         "title": "Análisis de IA",
-        "description": "Algoritmos avanzados para analizar la salud de los cultivos, las condiciones del suelo y el clima para recomendaciones personalizadas."
+        "description": "Algoritmos sofisticados para analizar salud de cultivos, condiciones del suelo y clima para recomendaciones personalizadas."
       },
       "realTimeMonitoring": {
         "title": "Monitoreo en Tiempo Real",
-        "description": "Rastrea tu granja 24/7 con sensores conectados y actualizaciones instantáneas sobre problemas críticos."
+        "description": "Rastrea tu granja 24/7 con sensores conectados y actualizaciones instantáneas para problemas críticos."
       },
       "resourceOptimization": {
         "title": "Optimización de Recursos",
-        "description": "Reduce el desperdicio y aumenta la eficiencia con el uso inteligente de agua, fertilizantes y pesticidas."
+        "description": "Reduce desperdicios y aumenta eficiencia con uso inteligente de agua, fertilizantes y pesticidas."
       }
     },
     "stats": {
       "title": "Resultados Comprobados",
       "yieldIncrease": {
         "value": "35%",
-        "label": "Aumento en el Rendimiento"
+        "label": "Aumento de Rendimiento"
       },
       "waterSavings": {
         "value": "40%",
@@ -76,13 +51,13 @@
         "label": "Reducción de Costos"
       }
     },
-    "cta": {
-      "title": "¿Listo para transformar tu granja?",
+    "callToAction": {
+      "title": "¿Listo para Transformar tu Granja?",
       "description": "Únete a miles de agricultores que ya han mejorado sus operaciones con IA",
-      "button": "Iniciar Prueba Gratuita"
+      "button": "Comenzar Prueba Gratuita"
     },
     "footer": {
-      "description": "Empoderamos a los agricultores con soluciones de IA de vanguardia para una agricultura sostenible y rentable.",
+      "description": "Empoderamos a los agricultores con soluciones avanzadas de IA para una agricultura sostenible y rentable.",
       "quickLinks": "Enlaces Rápidos",
       "company": "Empresa",
       "support": "Soporte",
@@ -91,7 +66,7 @@
   },
   "auth": {
     "login": {
-      "title": "Bienvenido de Vuelta",
+      "title": "Bienvenido de Nuevo",
       "description": "Inicia sesión en tu cuenta de FarmWise",
       "form": {
         "email": "Correo Electrónico",
@@ -104,16 +79,16 @@
     },
     "register": {
       "title": "Únete a FarmWise",
-      "description": "Sistema de Asesoría Agrícola Inteligente para agricultores modernos. Obtén insights impulsados por IA para riego, control de plagas y gestión de cultivos.",
+      "description": "Sistema de Asesoría Agrícola Inteligente para agricultores modernos. Obtén insights impulsados por IA para riego, control de plagas y manejo de cultivos.",
       "form": {
         "personalInfo": "Información Personal",
         "fullName": "Nombre Completo",
         "fullNamePlaceholder": "Ingresa tu nombre completo",
-        "email": "Dirección de Email",
-        "emailPlaceholder": "tu@email.com",
+        "email": "Dirección de Correo",
+        "emailPlaceholder": "tu@correo.com",
         "phone": "Número de Teléfono",
         "phonePlaceholder": "+1 (555) 000-0000",
-        "accountSecurity": "Seguridad de la Cuenta",
+        "accountSecurity": "Seguridad de Cuenta",
         "password": "Contraseña",
         "passwordPlaceholder": "Crea una contraseña segura",
         "confirmPassword": "Confirmar Contraseña",
@@ -165,10 +140,55 @@
       "irrigationDescription": "Activar sistemas de riego de campo"
     }
   },
+  "farmDashboard": {
+    "title": "Centro de Gestión Agrícola",
+    "subtitle": "Tu centro de comando central para operaciones agrícolas",
+    "welcome": "¡Bienvenido de nuevo, {{name}}!",
+    "todayActivity": "Aquí está lo que está pasando en tu granja hoy - {{date}}",
+    "quickStats": {
+      "title": "Estadísticas Rápidas",
+      "activeFields": "Campos Activos",
+      "teamMembers": "Miembros del Equipo",
+      "activeTasks": "Tareas Activas",
+      "alerts": "Alertas",
+      "weeklyYield": "Rendimiento de Esta Semana"
+    },
+    "features": {
+      "fieldMonitoring": {
+        "title": "Monitoreo de Campos",
+        "description": "Datos de sensores en tiempo real, métricas de salud del suelo y recomendaciones impulsadas por IA para todos tus campos.",
+        "action": "Monitorear Campos"
+      },
+      "teamManagement": {
+        "title": "Gestión de Equipo",
+        "description": "Coordina con trabajadores de campo, asigna tareas y rastrea el rendimiento del equipo en toda tu granja.",
+        "action": "Gestionar Equipo"
+      },
+      "taskTracking": {
+        "title": "Seguimiento de Tareas",
+        "description": "Crea, asigna y monitorea tareas agrícolas con actualizaciones en tiempo real y notificaciones SMS.",
+        "action": "Rastrear Tareas"
+      },
+      "realTimeTracker": {
+        "title": "Rastreador en Tiempo Real",
+        "description": "Monitorea actividades en curso, ubicaciones de trabajadores y progreso de tareas con actualizaciones en vivo.",
+        "action": "Ver Rastreador"
+      }
+    },
+    "recentActivity": {
+      "title": "Actividad Reciente",
+      "viewAll": "Ver Todas las Actividades"
+    },
+    "weatherWidget": {
+      "title": "Pronóstico del Tiempo"
+    }
+  },
   "fields": {
     "title": "Monitoreo de Campos",
     "subtitle": "Ver y gestionar todos tus campos en tiempo real",
-    "liveData": "Datos en Vivo"
+    "liveData": "Datos en Vivo",
+    "activeFields": "Campos Activos",
+    "lastUpdated": "Última Actualización"
   },
   "team": {
     "title": "Gestión del Equipo",
@@ -209,7 +229,8 @@
     "sort": "Ordenar",
     "refresh": "Actualizar",
     "export": "Exportar",
-    "import": "Importar"
+    "import": "Importar",
+    "confirm": "Confirmar"
   },
   "languages": {
     "english": "English",

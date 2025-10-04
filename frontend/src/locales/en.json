@@ -226,6 +226,7 @@
     "selectField": "Select Field",
     "growing": "Growing",
     "lastUpdated": "Last updated",
+    "days": "days",
     "fieldSelection": {
       "label": "Select Field:",
       "allFields": "All Fields"
