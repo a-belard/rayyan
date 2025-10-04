@@ -1,0 +1,202 @@
+"""
+Database models for users, chat, threads, messages, and agent runs.
+"""
+
+from sqlalchemy import String, Text, DateTime, ForeignKey, func, Enum as SAEnum, Integer
+from sqlalchemy.dialects.postgresql import JSONB, UUID as PGUUID
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from datetime import datetime
+import enum
+import uuid
+
+from src.core.database import Base
+
+
+class UserRole(str, enum.Enum):
+    """User role in the system."""
+    admin = "admin"
+    farmer = "farmer"
+    agronomist = "agronomist"
+    viewer = "viewer"
+
+
+class MessageRole(str, enum.Enum):
+    """Message role in conversation."""
+    user = "user"
+    assistant = "assistant"
+    system = "system"
+
+
+class RunStatus(str, enum.Enum):
+    """Status of an agent run."""
+    pending = "pending"
+    running = "running"
+    completed = "completed"
+    failed = "failed"
+    cancelled = "cancelled"
+
+
+class User(Base):
+    """User account managed by Supabase Auth."""
+    __tablename__ = "users"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        PGUUID(as_uuid=True), primary_key=True, index=True
+    )
+    
+    # Core Identity
+    email: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
+    full_name: Mapped[str | None] = mapped_column(String(255))
+    phone: Mapped[str | None] = mapped_column(String(20))
+    avatar_url: Mapped[str | None] = mapped_column(String(500))
+    role: Mapped[UserRole] = mapped_column(
+        SAEnum(UserRole, name="user_role"), nullable=False, default=UserRole.farmer
+    )
+    
+    # Farm/Organization Context
+    organization_name: Mapped[str | None] = mapped_column(String(255))
+    farm_location: Mapped[str | None] = mapped_column(String(500))
+    farm_size_hectares: Mapped[float | None]
+    
+    # System Fields
+    preferences: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    metadata_: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    subscription_tier: Mapped[str | None] = mapped_column(String(50))
+    subscription_expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    
+    # Timestamps
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
+    last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    
+    # Relationships
+    threads = relationship("Thread", back_populates="user", cascade="all, delete-orphan")
+    farms = relationship("Farm", back_populates="owner", cascade="all, delete-orphan")
+
+
+class Farm(Base):
+    """Farm/Field information for agricultural context."""
+    __tablename__ = "farms"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        PGUUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4
+    )
+    owner_id: Mapped[uuid.UUID] = mapped_column(
+        PGUUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), index=True
+    )
+    
+    # Basic Info
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    location: Mapped[str | None] = mapped_column(String(500))
+    latitude: Mapped[float | None]
+    longitude: Mapped[float | None]
+    
+    # Farm Details
+    size_hectares: Mapped[float | None]
+    soil_type: Mapped[str | None] = mapped_column(String(100))
+    irrigation_type: Mapped[str | None] = mapped_column(String(100))
+    crops: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    zones: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    metadata_: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    is_active: Mapped[bool] = mapped_column(default=True)
+    
+    # Timestamps
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
+    
+    # Relationships
+    owner = relationship("User", back_populates="farms")
+
+
+class Thread(Base):
+    """Chat thread/conversation."""
+    __tablename__ = "threads"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        PGUUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4
+    )
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        PGUUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), index=True
+    )
+    farm_id: Mapped[uuid.UUID | None] = mapped_column(
+        PGUUID(as_uuid=True), ForeignKey("farms.id", ondelete="SET NULL"), index=True
+    )
+    
+    # Thread Info
+    title: Mapped[str | None] = mapped_column(String(255))
+    is_pinned: Mapped[bool] = mapped_column(default=False)
+    metadata_: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    last_message_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    
+    # Timestamps
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
+    
+    # Relationships
+    user = relationship("User", back_populates="threads")
+    farm = relationship("Farm")
+    messages = relationship("Message", back_populates="thread", cascade="all, delete-orphan", order_by="Message.position")
+    runs = relationship("Run", back_populates="thread", cascade="all, delete-orphan")
+
+
+class Message(Base):
+    """Individual message in a thread."""
+    __tablename__ = "messages"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        PGUUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4
+    )
+    thread_id: Mapped[uuid.UUID] = mapped_column(
+        PGUUID(as_uuid=True), ForeignKey("threads.id", ondelete="CASCADE"), index=True
+    )
+    
+    position: Mapped[int] = mapped_column(Integer, nullable=False)
+    role: Mapped[MessageRole] = mapped_column(SAEnum(MessageRole, name="message_role"), nullable=False)
+    content: Mapped[str] = mapped_column(Text, nullable=False)
+    metadata_: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    
+    # Relationships
+    thread = relationship("Thread", back_populates="messages")
+
+
+class Run(Base):
+    """Agent run (execution of tools and LLM calls)."""
+    __tablename__ = "runs"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        PGUUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4
+    )
+    thread_id: Mapped[uuid.UUID] = mapped_column(
+        PGUUID(as_uuid=True), ForeignKey("threads.id", ondelete="CASCADE"), index=True
+    )
+    
+    status: Mapped[RunStatus] = mapped_column(
+        SAEnum(RunStatus, name="run_status"), nullable=False, default=RunStatus.pending
+    )
+    metadata_: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    
+    started_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    
+    # Relationships
+    thread = relationship("Thread", back_populates="runs")
