@@ -22,5 +22,40 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Agricultural platform theme colors */
+.text-agricultural-green {
+  color: #16a34a;
+}
+
+.bg-agricultural-green {
+  background-color: #16a34a;
+}
+
+.text-water-blue {
+  color: #0284c7;
+}
+
+.bg-water-blue {
+  background-color: #0284c7;
+}
+
+/* Form enhancements for better UX */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+/* Responsive form styling */
+@media (max-width: 768px) {
+  .grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

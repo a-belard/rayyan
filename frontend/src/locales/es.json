@@ -1,0 +1,223 @@
+{
+  "navigation": {
+    "farmwise": "FarmWise",
+    "login": "Iniciar Sesión",
+    "getStarted": "Comenzar",
+    "backToDashboard": "Volver al Panel",
+    "backToHome": "Volver al Inicio",
+    "logout": "Cerrar Sesión"
+  },
+  "homepage": {
+    "title": {
+      "main": "Agricultura Inteligente",
+      "subtitle": "Decisiones Más Inteligentes"
+    },
+    "description": "Plataforma de asesoría agrícola impulsada por IA que ayuda a los agricultores a optimizar el riego, detectar plagas temprano y maximizar el rendimiento de cultivos con insights en tiempo real.",
+    "cta": {
+      "primary": "Comienza Tu Viaje Agrícola",
+      "secondary": "Ver Demo"
+    },
+    "features": {
+      "irrigation": {
+        "title": "Riego Inteligente",
+        "description": "Obtén horarios de riego precisos basados en pronósticos del clima, humedad del suelo y necesidades de cultivos."
+      },
+      "pestDetection": {
+        "title": "Detección de Plagas",
+        "description": "Monitoreo acústico avanzado y análisis de IA detectan infestaciones de plagas tempranamente."
+      },
+      "dataAnalytics": {
+        "title": "Análisis de Datos",
+        "description": "Análisis e insights comprensivos para ayudarte a tomar decisiones agrícolas informadas."
+      }
+    },
+    "callToAction": {
+      "title": "¿Listo para Transformar tu Granja?",
+      "description": "Únete a cientos de agricultores que ya están usando FarmWise para aumentar rendimientos y proteger cultivos.",
+      "button": "Comenzar Gratis"
+    },
+    "footer": {
+      "description": "Sistema de Asesoría Agrícola Inteligente - Empoderando agricultores con insights de IA",
+      "copyright": "© 2025 FarmWise. Todos los derechos reservados."
+    },
+    "hero": {
+      "heading": "Revolucionando el futuro de la agricultura con IA",
+      "description": "Optimiza el rendimiento de los cultivos y la gestión de recursos con soluciones de IA de vanguardia para la agricultura moderna. Únete a miles de agricultores que logran mejores resultados.",
+      "getStarted": "Comenzar",
+      "learnMore": "Saber Más"
+    },
+    "features": {
+      "title": "¿Por qué elegir la Agricultura Inteligente?",
+      "aiAnalytics": {
+        "title": "Análisis de IA",
+        "description": "Algoritmos avanzados para analizar la salud de los cultivos, las condiciones del suelo y el clima para recomendaciones personalizadas."
+      },
+      "realTimeMonitoring": {
+        "title": "Monitoreo en Tiempo Real",
+        "description": "Rastrea tu granja 24/7 con sensores conectados y actualizaciones instantáneas sobre problemas críticos."
+      },
+      "resourceOptimization": {
+        "title": "Optimización de Recursos",
+        "description": "Reduce el desperdicio y aumenta la eficiencia con el uso inteligente de agua, fertilizantes y pesticidas."
+      }
+    },
+    "stats": {
+      "title": "Resultados Comprobados",
+      "yieldIncrease": {
+        "value": "35%",
+        "label": "Aumento en el Rendimiento"
+      },
+      "waterSavings": {
+        "value": "40%",
+        "label": "Ahorro de Agua"
+      },
+      "costReduction": {
+        "value": "25%",
+        "label": "Reducción de Costos"
+      }
+    },
+    "cta": {
+      "title": "¿Listo para transformar tu granja?",
+      "description": "Únete a miles de agricultores que ya han mejorado sus operaciones con IA",
+      "button": "Iniciar Prueba Gratuita"
+    },
+    "footer": {
+      "description": "Empoderamos a los agricultores con soluciones de IA de vanguardia para una agricultura sostenible y rentable.",
+      "quickLinks": "Enlaces Rápidos",
+      "company": "Empresa",
+      "support": "Soporte",
+      "copyright": "© 2025 FarmWise. Todos los derechos reservados."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido de Vuelta",
+      "description": "Inicia sesión en tu cuenta de FarmWise",
+      "form": {
+        "email": "Correo Electrónico",
+        "password": "Contraseña",
+        "emailPlaceholder": "Ingresa tu correo electrónico",
+        "passwordPlaceholder": "Ingresa tu contraseña",
+        "submit": "Iniciar Sesión",
+        "demoNote": "Demo: Usa cualquier correo y contraseña"
+      }
+    },
+    "register": {
+      "title": "Únete a FarmWise",
+      "description": "Sistema de Asesoría Agrícola Inteligente para agricultores modernos. Obtén insights impulsados por IA para riego, control de plagas y gestión de cultivos.",
+      "form": {
+        "personalInfo": "Información Personal",
+        "fullName": "Nombre Completo",
+        "fullNamePlaceholder": "Ingresa tu nombre completo",
+        "email": "Dirección de Email",
+        "emailPlaceholder": "tu@email.com",
+        "phone": "Número de Teléfono",
+        "phonePlaceholder": "+1 (555) 000-0000",
+        "accountSecurity": "Seguridad de la Cuenta",
+        "password": "Contraseña",
+        "passwordPlaceholder": "Crea una contraseña segura",
+        "confirmPassword": "Confirmar Contraseña",
+        "confirmPasswordPlaceholder": "Confirma tu contraseña",
+        "submit": "Crear Tu Cuenta de Granja",
+        "agreement": "Al registrarte, aceptas recibir horarios de riego, alertas de plagas e insights de gestión de cultivos personalizados para tu granja."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Panel de Datos del Campo",
+    "subtitle": "Monitoreo e insights de campo en tiempo real",
+    "selectField": "Seleccionar Campo",
+    "growing": "Cultivando",
+    "lastUpdated": "Última actualización",
+    "welcome": "¡Bienvenido, {{name}}!",
+    "quickStats": {
+      "title": "Estadísticas Rápidas",
+      "totalFields": "Campos Totales",
+      "activeTasks": "Tareas Activas",
+      "weeklyYield": "Rendimiento de Esta Semana"
+    },
+    "healthStatus": {
+      "good": "Estado de Salud Bueno",
+      "warning": "Estado de Salud de Advertencia",
+      "critical": "Estado de Salud Crítico"
+    },
+    "sensors": {
+      "soilMoisture": "Humedad del Suelo",
+      "temperature": "Temperatura",
+      "humidity": "Humedad",
+      "soilPh": "pH del Suelo",
+      "cropAge": "Edad del Cultivo"
+    },
+    "alerts": {
+      "title": "Alertas Activas"
+    },
+    "recommendations": {
+      "title": "Recomendaciones de IA"
+    },
+    "navigation": {
+      "teamManagement": "Gestión de Equipo",
+      "teamDescription": "Agregar y gestionar agricultores trabajadores",
+      "taskAssignment": "Asignación de Tareas",
+      "taskDescription": "Crear y asignar tareas de campo",
+      "taskTracker": "Rastreador de Tareas",
+      "trackerDescription": "Monitoreo de tareas en tiempo real",
+      "startIrrigation": "Iniciar Riego",
+      "irrigationDescription": "Activar sistemas de riego de campo"
+    }
+  },
+  "fields": {
+    "title": "Monitoreo de Campos",
+    "subtitle": "Ver y gestionar todos tus campos en tiempo real",
+    "liveData": "Datos en Vivo"
+  },
+  "team": {
+    "title": "Gestión del Equipo",
+    "subtitle": "Coordina con los trabajadores de campo y rastrea el rendimiento del equipo",
+    "addWorker": "Agregar Nuevo Trabajador",
+    "totalWorkers": "Total de Trabajadores",
+    "activeToday": "Activo Hoy",
+    "completedTasks": "Tareas Completadas",
+    "form": {
+      "name": "Nombre Completo",
+      "phone": "Número de Teléfono",
+      "language": "Idioma Preferido",
+      "submit": "Agregar Trabajador",
+      "cancel": "Cancelar"
+    }
+  },
+  "tasks": {
+    "title": "Gestión de Tareas",
+    "subtitle": "Crear y hacer seguimiento de tareas de campo para tu equipo",
+    "createTask": "Crear Tarea"
+  },
+  "tracker": {
+    "title": "Rastreador de Tareas",
+    "subtitle": "Monitoreo de actividad en tiempo real",
+    "activity": "Actividad",
+    "status": "Estado",
+    "time": "Tiempo"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "add": "Agregar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "refresh": "Actualizar",
+    "export": "Exportar",
+    "import": "Importar"
+  },
+  "languages": {
+    "english": "English",
+    "arabic": "العربية", 
+    "urdu": "اردو",
+    "spanish": "Español",
+    "other": "Other",
+    "selectLanguage": "Seleccionar Idioma",
+    "specifyLanguage": "Por favor especifica tu idioma"
+  }
+}
