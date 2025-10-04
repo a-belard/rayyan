@@ -563,7 +563,7 @@ export default function FarmDashboard() {
                   {t("farmDashboard.quickStats.teamMembers")}
                 </p>
                 <p className="text-3xl font-bold text-gray-900 mt-1">
-                  {loading ? '...' : teamData.filter(m => m.is_active).length}
+                  {loading ? "..." : teamData.filter((m) => m.is_active).length}
                 </p>
               </div>
             </div>
@@ -582,7 +582,12 @@ export default function FarmDashboard() {
                   {t("farmDashboard.quickStats.activeTasks")}
                 </p>
                 <p className="text-3xl font-bold text-gray-900 mt-1">
-                  {loading ? '...' : tasksData.filter(t => t.status === 'pending' || t.status === 'in-progress').length}
+                  {loading
+                    ? "..."
+                    : tasksData.filter(
+                        (t) =>
+                          t.status === "pending" || t.status === "in-progress"
+                      ).length}
                 </p>
               </div>
             </div>
