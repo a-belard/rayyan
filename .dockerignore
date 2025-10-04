@@ -1,0 +1,33 @@
+# Git
+.git/
+.gitignore
+.github/
+
+# Documentation
+*.md
+docs/
+
+# CI/CD
+.github/
+infra/ci-cd/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# System
+.DS_Store
+
+# Other projects in monorepo (when building specific service)
+risknav/
+examples/
+
+# Logs
+*.log
+
+# Environment files
+.env*
+!.env.example

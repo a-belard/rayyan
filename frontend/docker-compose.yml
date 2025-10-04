@@ -1,0 +1,49 @@
+# Docker Compose for Rayyan Frontend
+# Run from frontend directory: docker-compose up -d
+
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rayyan-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      # Next.js Configuration
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      
+      # API Configuration
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+      
+      # Optional: Analytics
+      # - NEXT_PUBLIC_GA_ID=${NEXT_PUBLIC_GA_ID}
+    env_file:
+      - .env.local
+    networks:
+      - frontend-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Optional: Mount for development (comment out for production)
+    # volumes:
+    #   - ./src:/app/src
+    #   - ./public:/app/public
+
+networks:
+  frontend-network:
+    driver: bridge
+    name: rayyan-frontend-network
+
+# Optional: Connect to backend network if running both locally
+# networks:
+#   frontend-network:
+#     external: true
+#     name: rayyan-backend-network

@@ -1,0 +1,86 @@
+# Docker Compose for Rayyan ML Training & Experimentation
+# Run from ml directory: docker-compose up -d
+
+version: '3.8'
+
+services:
+  ml:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rayyan-ml
+    ports:
+      - "8888:8888"  # Jupyter Lab
+      - "6006:6006"  # TensorBoard (optional)
+    environment:
+      # Jupyter Configuration
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-rayyan}
+      - GRANT_SUDO=${GRANT_SUDO:-yes}
+      
+      # ML Framework Configuration
+      - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES}
+      - TF_CPP_MIN_LOG_LEVEL=${TF_CPP_MIN_LOG_LEVEL:-2}
+      
+      # Experiment Tracking (optional)
+      # - WANDB_API_KEY=${WANDB_API_KEY}
+      # - MLFLOW_TRACKING_URI=${MLFLOW_TRACKING_URI}
+    env_file:
+      - .env
+    networks:
+      - ml-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/api"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    volumes:
+      # Mount entire ML workspace for development
+      - ./:/workspace
+      
+      # Mount datasets (can be separate large volume)
+      - ./datasets:/workspace/datasets
+      
+      # Mount notebooks
+      - ./notebooks:/workspace/notebooks
+      
+      # Mount model outputs
+      - ./models:/workspace/models
+      
+      # Optional: Mount shared data
+      # - ../data:/workspace/shared_data:ro
+      
+      # Optional: Cache directories for faster builds
+      # - ~/.cache/huggingface:/home/mluser/.cache/huggingface
+      # - ~/.cache/torch:/home/mluser/.cache/torch
+    
+    # Uncomment for GPU support (requires nvidia-docker)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    
+    # Optional: Limit resources
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '4'
+    #       memory: 8G
+
+networks:
+  ml-network:
+    driver: bridge
+    name: rayyan-ml-network
+
+volumes:
+  datasets:
+    driver: local
+  models:
+    driver: local
+  notebooks:
+    driver: local

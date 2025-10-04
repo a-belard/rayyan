@@ -1,0 +1,307 @@
+{
+  "navigation": {
+    "farmwise": "FarmWise",
+    "login": "Login",
+    "getStarted": "Get Started",
+    "backToDashboard": "Back to Dashboard",
+    "backToHome": "Back to Home",
+    "logout": "Logout"
+  },
+  "homepage": {
+    "title": {
+      "main": "Smart Farming,",
+      "subtitle": "Smarter Decisions"
+    },
+    "description": "AI-driven agricultural advisory platform that helps farmers optimize irrigation, detect pests early, and maximize crop yields with real-time insights.",
+    "cta": {
+      "primary": "Start Your Farm Journey",
+      "secondary": "Watch Demo"
+    },
+    "features": {
+      "irrigation": {
+        "title": "Smart Irrigation",
+        "description": "Get precise irrigation schedules based on weather forecasts, soil moisture, and crop needs."
+      },
+      "pestDetection": {
+        "title": "Pest Detection",
+        "description": "Advanced acoustic monitoring and AI analysis detect pest infestations early."
+      },
+      "dataAnalytics": {
+        "title": "Data Analytics",
+        "description": "Comprehensive analytics and insights to help you make informed farming decisions."
+      }
+    },
+    "callToAction": {
+      "title": "Ready to Transform Your Farm?",
+      "description": "Join hundreds of farmers already using FarmWise to increase yields and protect crops.",
+      "button": "Get Started for Free"
+    },
+    "footer": {
+      "description": "Smart Agricultural Advisory System - Empowering farmers with AI-driven insights",
+      "copyright": "© 2025 FarmWise. All rights reserved."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "description": "Sign in to your FarmWise account",
+      "form": {
+        "email": "Email",
+        "password": "Password",
+        "emailPlaceholder": "Enter your email",
+        "passwordPlaceholder": "Enter your password",
+        "submit": "Sign In",
+        "demoNote": "Demo: Use any email and password"
+      }
+    },
+    "register": {
+      "title": "Join FarmWise",
+      "description": "Smart Agricultural Advisory System for modern farmers. Get AI-driven insights for irrigation, pest control, and crop management.",
+      "form": {
+        "personalInfo": "Personal Information",
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "Enter your full name",
+        "email": "Email Address",
+        "emailPlaceholder": "your@email.com",
+        "phone": "Phone Number",
+        "phonePlaceholder": "+1 (555) 000-0000",
+        "accountSecurity": "Account Security",
+        "password": "Password",
+        "passwordPlaceholder": "Create a secure password",
+        "confirmPassword": "Confirm Password",
+        "confirmPasswordPlaceholder": "Confirm your password",
+        "submit": "Create Your Farm Account",
+        "agreement": "By registering, you agree to receive irrigation schedules, pest alerts, and crop management insights tailored to your farm."
+      }
+    }
+  },
+
+  "farmDashboard": {
+    "title": "Farm Management Hub",
+    "subtitle": "Your central command center for agricultural operations",
+    "welcome": "Welcome back, {{name}}!",
+    "todayActivity": "Here's what's happening on your farm today - {{date}}",
+    "quickStats": {
+      "title": "Quick Stats",
+      "activeFields": "Active Fields",
+      "teamMembers": "Team Members", 
+      "activeTasks": "Active Tasks",
+      "alerts": "Alerts",
+      "weeklyYield": "This Week's Yield"
+    },
+    "features": {
+      "fieldMonitoring": {
+        "title": "Field Monitoring",
+        "description": "Real-time sensor data, soil health metrics, and AI-powered recommendations for all your fields.",
+        "action": "Monitor Fields"
+      },
+      "teamManagement": {
+        "title": "Team Management", 
+        "description": "Coordinate with field workers, assign tasks, and track team performance across your farm.",
+        "action": "Manage Team"
+      },
+      "taskTracking": {
+        "title": "Task Tracking",
+        "description": "Create, assign, and monitor agricultural tasks with real-time updates and SMS notifications.",
+        "action": "Track Tasks"
+      },
+      "realTimeTracker": {
+        "title": "Real-Time Tracker",
+        "description": "Monitor ongoing activities, worker locations, and task progress with live updates.",
+        "action": "View Tracker"
+      }
+    },
+    "recentActivity": {
+      "title": "Recent Activity",
+      "viewAll": "View All Activities"
+    },
+    "weatherWidget": {
+      "title": "Weather Forecast"
+    }
+  },
+  "fields": {
+    "title": "Field Monitoring",
+    "subtitle": "Real-time sensor data and field insights",
+    "liveData": "Live Data",
+    "activeFields": "Active Fields",
+    "environmentalMetrics": {
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "soilMoisture": "Soil Moisture", 
+      "soilPh": "Soil pH"
+    },
+    "nutrients": {
+      "title": "Soil Nutrient Levels",
+      "nitrogen": "Nitrogen (N)",
+      "phosphorus": "Phosphorus (P)",
+      "potassium": "Potassium (K)"
+    },
+    "aiRecommendations": {
+      "title": "AI Recommendations",
+      "criticalMoisture": {
+        "title": "Critical: Low Soil Moisture",
+        "description": "Immediate irrigation required. Soil moisture at {{percentage}}% is below critical threshold.",
+        "action": "Activate Emergency Irrigation"
+      },
+      "warningMoisture": {
+        "title": "Warning: Monitor Soil Moisture", 
+        "description": "Soil moisture at {{percentage}}% requires attention. Consider scheduling irrigation."
+      },
+      "optimizeNutrients": {
+        "title": "Optimize Nutrient Balance",
+        "description": "Based on current soil analysis, consider adding phosphorus-rich fertilizer to boost crop yield."
+      },
+      "weatherScheduling": {
+        "title": "Weather-Based Scheduling",
+        "description": "Current weather conditions are optimal for growth. Next irrigation recommended in 8 hours."
+      }
+    },
+    "irrigationStatus": {
+      "active": "Irrigation: active",
+      "scheduled": "Irrigation: scheduled", 
+      "off": "Irrigation: off"
+    }
+  },
+  "team": {
+    "title": "Team Management",
+    "subtitle": "Coordinate with your field workers and track team performance",
+    "addWorker": "Add New Worker",
+    "totalWorkers": "Total Workers",
+    "activeToday": "Active Today",
+    "completedTasks": "Completed Tasks",
+    "form": {
+      "name": "Full Name",
+      "phone": "Phone Number",
+      "language": "Preferred Language",
+      "submit": "Add Worker",
+      "namePlaceholder": "Enter worker's full name",
+      "phonePlaceholder": "Enter phone number"
+    },
+    "workerCard": {
+      "phone": "Phone:",
+      "language": "Language:",
+      "assignedFields": "Assigned Fields:",
+      "removeWorker": "Remove Worker"
+    }
+  },
+  "tasks": {
+    "title": "Task Management", 
+    "subtitle": "Create, assign, and track agricultural tasks",
+    "createTask": "Create New Task",
+    "allTasks": "All Tasks",
+    "form": {
+      "title": "Task Title",
+      "description": "Description", 
+      "assignTo": "Assign to",
+      "field": "Field",
+      "priority": "Priority",
+      "dueTime": "Due Time",
+      "submit": "Create Task",
+      "titlePlaceholder": "Enter task title",
+      "descriptionPlaceholder": "Describe the task details"
+    },
+    "priority": {
+      "high": "High",
+      "medium": "Medium", 
+      "low": "Low"
+    },
+    "status": {
+      "pending": "Pending",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    }
+  },
+  "tracker": {
+    "title": "Task Tracker",
+    "subtitle": "Monitor ongoing tasks and worker activities",
+    "liveActivities": "Live Activities",
+    "recentUpdates": "Recent Updates",
+    "activity": "Activity",
+    "status": "Status",
+    "time": "Time"
+  },
+  "dashboard": {
+    "title": "Field Data Dashboard",
+    "subtitle": "Real-time field monitoring and insights",
+    "selectField": "Select Field",
+    "growing": "Growing",
+    "lastUpdated": "Last updated",
+    "fieldSelection": {
+      "label": "Select Field:",
+      "allFields": "All Fields"
+    },
+    "metrics": {
+      "temperature": "Temperature",
+      "humidity": "Humidity", 
+      "soilMoisture": "Soil Moisture",
+      "ph": "Soil pH"
+    },
+    "charts": {
+      "temperatureTrend": "Temperature Trend (Last 24 Hours)",
+      "moistureLevels": "Soil Moisture Levels",
+      "phBalance": "pH Balance Across Fields"
+    },
+    "status": {
+      "healthy": "Healthy",
+      "warning": "Warning", 
+      "critical": "Critical",
+      "lastUpdated": "Last updated {{time}}"
+    },
+    "healthStatus": {
+      "good": "Good Health Status",
+      "warning": "Warning Health Status",
+      "critical": "Critical Health Status"
+    },
+    "sensors": {
+      "soilMoisture": "Soil Moisture",
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "soilPh": "Soil pH",
+      "cropAge": "Crop Age"
+    },
+    "alerts": {
+      "title": "Active Alerts"
+    },
+    "recommendations": {
+      "title": "AI Recommendations"
+    },
+    "navigation": {
+      "teamManagement": "Team Management",
+      "teamDescription": "Add and manage worker farmers",
+      "taskAssignment": "Task Assignment",
+      "taskDescription": "Create and assign field tasks",
+      "taskTracker": "Task Tracker",
+      "trackerDescription": "Real-time task monitoring",
+      "startIrrigation": "Start Irrigation",
+      "irrigationDescription": "Activate field irrigation systems"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete", 
+    "confirm": "Confirm",
+    "close": "Close",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "export": "Export",
+    "import": "Import"
+  },
+  "languages": {
+    "english": "English",
+    "arabic": "العربية", 
+    "urdu": "اردو",
+    "spanish": "Español",
+    "other": "Other",
+    "selectLanguage": "Select Language",
+    "specifyLanguage": "Please specify your language"
+  }
+}

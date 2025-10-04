@@ -1,0 +1,56 @@
+# Docker Compose for Rayyan Backend API
+# Run from backend directory: docker-compose up -d
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rayyan-backend
+    ports:
+      - "127.0.0.1:8000:8000"  # Only bind to localhost - not exposed to internet
+    environment:
+      # Database
+      - DATABASE_URL=${DATABASE_URL}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      
+      # AI/LLM Configuration
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - DEFAULT_LLM_PROVIDER=${DEFAULT_LLM_PROVIDER:-openai}
+      - DEFAULT_LLM_MODEL=${DEFAULT_LLM_MODEL:-gpt-4o-mini}
+      - LLM_TEMPERATURE=${LLM_TEMPERATURE:-0.7}
+      
+      # Agent Configuration
+      - CHAT_HISTORY_MAX_MESSAGES=${CHAT_HISTORY_MAX_MESSAGES:-50}
+      
+      # Runtime
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+    env_file:
+      - .env
+    networks:
+      - backend-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    volumes:
+      # Optional: Mount code for development (comment out for production)
+      # - ./:/app
+      # Optional: Mount logs directory
+      - ./logs:/app/logs
+
+networks:
+  backend-network:
+    driver: bridge
+    name: rayyan-backend-network
+
+# Optional: Volumes for persistent data
+volumes:
+  logs:
+    driver: local
