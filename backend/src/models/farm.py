@@ -46,3 +46,9 @@ class Farm(Base):
     
     # Relationships
     owner = relationship("User", back_populates="farms")
+    farm_zones = relationship("FarmZone", back_populates="farm", cascade="all, delete-orphan")
+    farm_crops = relationship("FarmCrop", back_populates="farm", cascade="all, delete-orphan")
+    team_members = relationship("TeamMember", back_populates="farm", cascade="all, delete-orphan")
+    farm_tasks = relationship("FarmTask", back_populates="farm", cascade="all, delete-orphan")
+    water_storage = relationship("WaterStorage", back_populates="farm", cascade="all, delete-orphan")
+    pesticide_inventory = relationship("PesticideInventory", back_populates="farm", cascade="all, delete-orphan")

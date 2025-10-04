@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { User, Lock, ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "../../components/LanguageSelector";
-import { authApi, usersApi } from "@/lib/api";
+import { authApi, usersApi, farmsApi } from "@/lib/api";
 
 /**
  * Login page component for FarmWise platform
@@ -67,8 +67,19 @@ export default function Login() {
       localStorage.setItem("userEmail", user.email);
       localStorage.setItem("userName", user.full_name || user.email);
 
-      // Redirect to farm dashboard
-      router.push("/farm-dashboard");
+      // Check if user has completed farm setup
+      const farms = await farmsApi.list();
+
+      // If no farms or farm doesn't have onboarding_completed metadata, redirect to onboarding
+      const hasCompletedOnboarding =
+        farms.length > 0 &&
+        farms.some((farm) => farm.metadata?.onboarding_completed === true);
+
+      if (!hasCompletedOnboarding) {
+        router.push("/onboarding");
+      } else {
+        router.push("/dashboard");
+      }
     } catch (err: any) {
       console.error("Login error:", err);
       setError(err.response?.data?.detail || "Invalid email or password");

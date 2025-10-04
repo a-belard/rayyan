@@ -90,8 +90,8 @@ export default function RegisterPage() {
       localStorage.setItem("userEmail", user.email);
       localStorage.setItem("userName", user.full_name || user.email);
 
-      // Redirect to farm dashboard
-      router.push("/farm-dashboard");
+      // Redirect to onboarding for farm setup
+      router.push("/onboarding");
     } catch (err: any) {
       console.error("Registration error:", err);
       setError(

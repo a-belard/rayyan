@@ -192,13 +192,15 @@ export interface UpdateUserPayload {
 
 export interface FarmZone {
   id: string;
-  name: string;
+  name?: string;
   crop?: string;
   crop_variety?: string;
   area_hectares?: number;
+  points?: [number, number][];  // Polygon coordinates [(lat, lng), ...]
   planting_date?: string;
   growth_stage?: string;
   sensors?: string[];
+  color?: string;  // For map visualization
 }
 
 export interface Farm {
@@ -497,3 +499,27 @@ export const agentApi = {
 };
 
 export { API_BASE, API_PREFIX, apiClient };
+
+// Convenience exports for common operations
+export default {
+  // Auth
+  register: authApi.register,
+  login: authApi.login,
+  logout: authApi.logout,
+  getMe: usersApi.getMe,
+  
+  // Farms
+  createFarm: farmsApi.create,
+  listFarms: farmsApi.list,
+  getFarm: farmsApi.get,
+  
+  // Threads
+  createThread: threadsApi.create,
+  listThreads: threadsApi.list,
+  getThread: threadsApi.get,
+  deleteThread: threadsApi.delete,
+  
+  // Messages
+  getMessages: agentApi.getMessages,
+  sendMessage: agentApi.sendMessage,
+};
