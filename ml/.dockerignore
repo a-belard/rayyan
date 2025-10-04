@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Data (large files, mount as volumes)
+datasets/**/*.csv
+datasets/**/*.json
+datasets/**/*.parquet
+*.pkl
+*.pickle
+
+# Models (large files, mount as volumes)
+*.onnx
+*.tflite
+*.pt
+*.pth
+*.h5
+*.pb
+*.safetensors
+
+# Training outputs
+checkpoints/
+logs/
+runs/
+tensorboard/
+wandb/
+
+# Environment
+.env
+.env.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+docs/
+
+# System
+.DS_Store

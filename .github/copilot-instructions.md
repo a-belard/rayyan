@@ -42,17 +42,57 @@
 - Design for resource-constrained environments
 
 ## Critical Notes
-- **Documentation directories** (`docs/`, component READMEs) are placeholders - don't assume existing patterns
+- **Backend structure**: `main.py` (FastAPI app with routers), `config.py` (settings), `db.py` (Supabase/SQLAlchemy setup), `models.py` (database models)
+- **Environment setup**: Copy `backend/.env.example` to `.env` and configure Supabase credentials + OpenAI/Anthropic API keys
+- **Database access**: Use `Depends(get_db)` for SQLAlchemy, `Depends(get_supabase_client)` for auth/storage/realtime
+- **Agent system**: LangGraph-based AI agent in `backend/agent/` with agricultural tools
+  - System prompt in `system_prompt.py` defines agent role and behavior
+  - Tools in `tools.py` provide weather, soil, water, pest, irrigation, fertigation analysis
+  - Agent builder in `builder.py` creates ReAct agent with LLM + tools
+- **API patterns**: Routers in `backend/routers/` - threads for CRUD, agent for SSE streaming
+- **Chat UI**: Next.js chat interface at `/chat` with thread sidebar and streaming messages
+- **Docker deployment**: Multi-stage build with uv in `infra/docker/backend.Dockerfile`
 - **ML modules** are structured but empty - follow naming conventions when implementing
-- **Infra files** (Dockerfiles, CI/CD) - design for multi-service deployment
-- **No existing API contracts** yet - design RESTful/GraphQL patterns consistent with FastAPI + Next.js best practices
 
 ## When Implementing New Features
 **Backend**: Follow FastAPI async patterns, use Pydantic models for validation, SQLAlchemy for ORM with Supabase PostgreSQL
-**Frontend**: Create components in `src/components/`, pages in `src/app/`, use TypeScript strict types. Consider @supabase/supabase-js for client-side auth and real-time
+  - See `backend/db.py` for database access patterns
+  - Use `Depends(get_db)` for SQLAlchemy sessions
+  - Use `Depends(get_supabase_client)` for auth/storage/realtime
+  - Add routers in `backend/routers/` and include them in `main.py`
+**Agent Tools**: Add new tools in `backend/agent/tools.py` with `@tool` decorator
+  - Follow pattern: clear docstring, type hints, return Dict[str, Any]
+  - Update system prompt if adding new capabilities
+  - Tools should return actionable data with traffic-light indicators (🟢🟡🔴)
+**Frontend**: Create components in `src/components/`, pages in `src/app/`, use TypeScript strict types
+  - Chat UI in `src/app/chat/` with streaming SSE support
+  - Components use Tailwind CSS utility classes
+  - API calls to `NEXT_PUBLIC_API_URL` from `.env.local`
 **Database**: Use Supabase for PostgreSQL, authentication, storage, and real-time subscriptions
+  - Models in `backend/models.py` (Thread, Message, Run)
+  - Always use async SQLAlchemy patterns
 **ML Models**: Place training code in respective subdirectories, export models as ONNX/TFLite for edge deployment
-**Docker**: Design for multi-stage builds (backend.Dockerfile, frontend.Dockerfile patterns in `infra/docker/`)
+**Docker**: Use multi-stage builds with uv (see `infra/docker/backend.Dockerfile` for reference)
+
+## Key Development Workflows
+
+### Backend Development
+```bash
+cd backend
+uv pip install -e .              # Install dependencies
+cp .env.example .env             # Configure environment
+python main.py                   # Run dev server (with auto-reload)
+# or: uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+### Docker Deployment
+```bash
+# Build backend
+docker build -f infra/docker/backend.Dockerfile -t rayyan-backend .
+
+# Run with docker-compose (from infra/docker/)
+docker-compose up backend
+```
 
 
 When in doubt, ask for clarification or propose patterns consistent with modern best practices.

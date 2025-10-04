@@ -1,0 +1,104 @@
+# Docker Compose configuration for Rayyan platform
+version: '3.8'
+
+services:
+  # Backend API Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: rayyan-backend
+    ports:
+      - "127.0.0.1:8000:8000"  # Only bind to localhost - not exposed to internet
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DATABASE_URL=${DATABASE_URL}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - DEFAULT_LLM_PROVIDER=${DEFAULT_LLM_PROVIDER:-openai}
+      - DEFAULT_LLM_MODEL=${DEFAULT_LLM_MODEL:-gpt-4o-mini}
+    env_file:
+      - ./backend/.env
+    networks:
+      - rayyan-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+  # Frontend Web Application
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: rayyan-frontend
+    ports:
+      - "127.0.0.1:3000:3000"  # Only bind to localhost - not exposed to internet
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+    env_file:
+      - ./frontend/.env.local
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - rayyan-network
+    restart: unless-stopped
+
+  # Edge Computing Module
+  edge:
+    build:
+      context: ./edge
+      dockerfile: Dockerfile
+    container_name: rayyan-edge
+    ports:
+      - "5000:5000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MQTT_BROKER=${MQTT_BROKER:-mqtt.eclipseprojects.io}
+      - MQTT_PORT=${MQTT_PORT:-1883}
+      - BACKEND_API_URL=${BACKEND_API_URL:-http://backend:8000}
+    volumes:
+      # Mount models directory for inference
+      - ./edge/models:/app/models:ro
+    networks:
+      - rayyan-network
+    restart: unless-stopped
+
+  # ML Training & Experimentation (optional, for development)
+  ml:
+    build:
+      context: ./ml
+      dockerfile: Dockerfile
+    container_name: rayyan-ml
+    ports:
+      - "8888:8888"  # Jupyter Lab
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-rayyan}
+    volumes:
+      # Mount entire ML workspace for development
+      - ./ml:/workspace
+      # Mount datasets (can be separate volume for large data)
+      - ./ml/datasets:/workspace/datasets
+    networks:
+      - rayyan-network
+    profiles:
+      - ml  # Only start with: docker-compose --profile ml up
+    restart: unless-stopped
+
+networks:
+  rayyan-network:
+    driver: bridge
+    name: rayyan-network
+
+volumes:
+  # Define volumes for persistent data if needed
+  models:
+    driver: local
