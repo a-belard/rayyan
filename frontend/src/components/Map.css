@@ -1,0 +1,49 @@
+/* Leaflet CSS imports */
+@import 'leaflet/dist/leaflet.css';
+
+/* Custom map styles */
+.leaflet-container {
+  font-family: inherit;
+}
+
+.leaflet-popup-content {
+  margin: 8px 12px;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+}
+
+/* Drawing controls */
+.map-drawing-controls {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+}
+
+/* Region list */
+.map-regions-list {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  max-width: 250px;
+}
+
+/* Custom marker styles */
+.custom-marker {
+  background-color: #3b82f6;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal styles */
+.crop-modal-overlay {
+  backdrop-filter: blur(4px);
+}
+
+.crop-modal-content {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
