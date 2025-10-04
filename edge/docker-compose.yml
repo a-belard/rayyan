@@ -1,0 +1,71 @@
+# Docker Compose for Rayyan Edge Computing Module
+# Run from edge directory: docker-compose up -d
+
+version: '3.8'
+
+services:
+  edge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rayyan-edge
+    ports:
+      - "5000:5000"
+    environment:
+      # MQTT Configuration
+      - MQTT_BROKER=${MQTT_BROKER:-mqtt.eclipseprojects.io}
+      - MQTT_PORT=${MQTT_PORT:-1883}
+      - MQTT_USERNAME=${MQTT_USERNAME}
+      - MQTT_PASSWORD=${MQTT_PASSWORD}
+      - MQTT_CLIENT_ID=${MQTT_CLIENT_ID:-rayyan-edge}
+      
+      # Backend API Configuration
+      - BACKEND_API_URL=${BACKEND_API_URL:-http://localhost:8000}
+      - API_KEY=${API_KEY}
+      
+      # Edge Configuration
+      - DEVICE_ID=${DEVICE_ID:-edge-001}
+      - INFERENCE_MODE=${INFERENCE_MODE:-onnx}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      
+      # Runtime
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+    env_file:
+      - .env
+    networks:
+      - edge-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    volumes:
+      # Mount models directory (read-only)
+      - ./models:/app/models:ro
+      
+      # Optional: Mount config
+      - ./config:/app/config:ro
+      
+      # Optional: Mount data for local processing
+      # - ./data:/app/data
+    
+    # Optional: Device access for GPIO/serial (Raspberry Pi, etc.)
+    # devices:
+    #   - /dev/gpiomem:/dev/gpiomem
+    #   - /dev/i2c-1:/dev/i2c-1
+    
+    # Optional: Privileged mode for hardware access (use with caution)
+    # privileged: true
+
+networks:
+  edge-network:
+    driver: bridge
+    name: rayyan-edge-network
+
+# Optional: Named volumes for models
+volumes:
+  models:
+    driver: local
