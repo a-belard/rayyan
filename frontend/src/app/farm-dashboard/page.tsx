@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { LogOut, User, Bell, Settings, BarChart3, Users, CheckCircle, MapPin, Calendar, TrendingUp, Droplets, Sun, Moon, Cloud, CloudRain, CloudSnow, Zap, Wind, Eye, Thermometer, RefreshCw, AlertTriangle, ShowerHead, Beaker, Target, Sprout, Database } from 'lucide-react';
+import { LogOut, User, Bell, Settings, BarChart3, Users, CheckCircle, MapPin, Calendar, TrendingUp, Droplets, Sun, Moon, Cloud, CloudRain, CloudSnow, Zap, Wind, Eye, Thermometer, RefreshCw, AlertTriangle, ShowerHead, Beaker, Target, Sprout, Database, Map } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from '../../components/LanguageSelector';
@@ -48,9 +48,9 @@ export default function FarmDashboard() {
 
   // Sample data for detailed views
   const fieldsData = [
-    { id: 1, name: 'North Field', size: '2.5 acres', crop: 'Tomatoes', status: 'Healthy', soilMoisture: '65%', lastWatered: '2 hours ago' },
-    { id: 2, name: 'South Field', size: '1.8 acres', crop: 'Corn', status: 'Needs Water', soilMoisture: '45%', lastWatered: '6 hours ago' },
-    { id: 3, name: 'East Field', size: '3.2 acres', crop: 'Wheat', status: 'Excellent', soilMoisture: '72%', lastWatered: '1 hour ago' }
+    { id: 1, name: 'North Field', size: '2.5 acres', crop: 'Tomatoes', status: 'Healthy', soilMoisture: '65%', lastWatered: '2 hours ago', cropAge: 85 },
+    { id: 2, name: 'South Field', size: '1.8 acres', crop: 'Corn', status: 'Needs Water', soilMoisture: '45%', lastWatered: '6 hours ago', cropAge: 42 },
+    { id: 3, name: 'East Field', size: '3.2 acres', crop: 'Wheat', status: 'Excellent', soilMoisture: '72%', lastWatered: '1 hour ago', cropAge: 28 }
   ];
 
   const teamData = [
@@ -186,6 +186,20 @@ export default function FarmDashboard() {
     return directions[Math.round(degrees / 45) % 8];
   };
 
+  // Helpers for crop ages and stages (mirrors Field Monitoring page)
+  const daysToMonths = (days: number) => {
+    const months = Math.floor(days / 30);
+    const remDays = days % 30;
+    return { months, remDays };
+  };
+
+  const getCropStage = (days: number) => {
+    if (days <= 21) return { label: 'Seedling', color: 'bg-amber-100 text-amber-800' };
+    if (days <= 60) return { label: 'Vegetative', color: 'bg-emerald-100 text-emerald-800' };
+    if (days <= 90) return { label: 'Flowering', color: 'bg-purple-100 text-purple-800' };
+    return { label: 'Fruiting / Harvest', color: 'bg-blue-100 text-blue-800' };
+  };
+
   // Handle logout
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
@@ -278,7 +292,6 @@ export default function FarmDashboard() {
               <div className="ml-6">
                 <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">{t('farmDashboard.quickStats.activeFields')}</p>
                 <p className="text-3xl font-bold text-gray-900 mt-1">3</p>
-                <p className="text-xs text-blue-600 mt-1">{t('farmDashboard.features.fieldMonitoring.title')}</p>
               </div>
             </div>
           </div>
@@ -329,10 +342,38 @@ export default function FarmDashboard() {
           </div>
         </div>
 
+        {/* Interactive Map - full width */}
+        <div className="mb-12">
+          <Link href="/farm-dashboard/map" className="block group">
+            <div className="relative h-56 md:h-64 w-full overflow-hidden rounded-2xl border bg-gradient-to-br from-green-100 via-blue-50 to-green-100 shadow-sm">
+              <div className="absolute inset-0 grid grid-cols-6 grid-rows-3">
+                <div className="col-span-2 row-span-2 m-1 rounded bg-green-300/70"></div>
+                <div className="col-span-2 m-1 rounded bg-emerald-300/70"></div>
+                <div className="col-span-2 m-1 rounded bg-lime-300/70"></div>
+                <div className="col-span-3 m-1 rounded bg-teal-300/70"></div>
+                <div className="col-span-3 m-1 rounded bg-green-400/70"></div>
+              </div>
+              <div className="absolute top-3 left-3 flex items-center gap-1 bg-white/90 px-2 py-1 rounded shadow">
+                <MapPin className="w-4 h-4 text-red-600" />
+                <span className="text-xs font-medium text-gray-700">North Field</span>
+              </div>
+              <div className="absolute bottom-3 right-3 flex items-center gap-1 bg-white/90 px-2 py-1 rounded shadow">
+                <MapPin className="w-4 h-4 text-red-600" />
+                <span className="text-xs font-medium text-gray-700">South Field</span>
+              </div>
+              <div className="absolute inset-0 flex items-end justify-end p-3">
+                <span className="inline-flex items-center gap-2 bg-green-600 text-white text-xs md:text-sm font-semibold px-3 py-2 rounded-lg shadow group-hover:bg-green-700 transition-colors">
+                  <Map className="w-4 h-4" /> Open Map
+                </span>
+              </div>
+            </div>
+          </Link>
+        </div>
+
         {/* Action Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Field Monitoring */}
-          <Link href="/fields" className="block">
+          <Link href="/field-monitoring" className="block">
             <div className="bg-white rounded-xl shadow-lg border-0 p-8 hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer">
               <div className="flex items-center mb-6">
                 <div className="p-3 bg-green-100 rounded-xl">
@@ -344,7 +385,7 @@ export default function FarmDashboard() {
                 Real-time sensor data, soil health metrics, and AI-powered recommendations for all your fields.
               </p>
               <div className="text-green-600 font-semibold text-sm flex items-center">
-                Monitor Fields 
+                Open Field Monitoring 
                 <span className="ml-1 transform group-hover:translate-x-1 transition-transform">→</span>
               </div>
             </div>
@@ -478,6 +519,8 @@ export default function FarmDashboard() {
               <span className="ml-1">→</span>
             </div>
           </div>
+
+          {/* Interactive Map card removed - map preview moved next to Weekly Yield */}
         </div>
 
         {/* Recent Activity */}
@@ -564,7 +607,7 @@ export default function FarmDashboard() {
                             {field.status}
                           </span>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                           <div>
                             <p className="text-xs text-gray-500">Soil Moisture</p>
                             <p className="font-semibold">{field.soilMoisture}</p>
@@ -572,6 +615,25 @@ export default function FarmDashboard() {
                           <div>
                             <p className="text-xs text-gray-500">Last Watered</p>
                             <p className="font-semibold">{field.lastWatered}</p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-500">Crop Age</p>
+                            <p className="font-semibold">
+                              {(() => {
+                                const age = field.cropAge ?? 0;
+                                const m = daysToMonths(age);
+                                return `${age} days • ~${m.months}m ${m.remDays}d`;
+                              })()}
+                            </p>
+                            <div className="mt-1">
+                              {(() => {
+                                const stage = getCropStage(field.cropAge ?? 0);
+                                return <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${stage.color}`}>
+                                  <Sprout className="w-3 h-3" />
+                                  {stage.label}
+                                </span>;
+                              })()}
+                            </div>
                           </div>
                         </div>
                       </div>

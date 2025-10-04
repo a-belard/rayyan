@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Droplets, Thermometer, Wind, Sun, AlertCircle, TrendingUp, Leaf, Users, CheckCircle, SmilePlus, Meh, AlertTriangle, Calendar } from 'lucide-react';
+import { ArrowLeft, Droplets, Thermometer, Wind, Sun, AlertCircle, TrendingUp, Leaf, Users, CheckCircle, SmilePlus, Meh, AlertTriangle, Calendar, Map, MapPin, Layers, Satellite } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
@@ -236,7 +236,8 @@ export default function Dashboard() {
       {/* Header with navigation */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+          {/* Top row - Main navigation and controls */}
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-4">
               <Link href="/farm-dashboard" className="text-gray-600 hover:text-gray-900 transition-colors">
                 <ArrowLeft size={24} />
@@ -266,11 +267,96 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+
+          {/* Welcome section - text only (map moved near yield) */}
+          <div className="bg-green-50 rounded-lg p-4 md:p-5">
+            <p className="text-lg font-semibold text-gray-900">Welcome back, Farmer! 👋</p>
+            <p className="text-sm text-gray-600">Monitor your fields and explore insights tailored for this week.</p>
+          </div>
         </div>
       </div>
 
       {/* Main dashboard content */}
       <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Stats cards row */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+          <div className="bg-white rounded-lg shadow-sm border p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Active Fields</p>
+                <p className="text-2xl font-bold text-gray-900">3</p>
+              </div>
+              <div className="text-green-600">
+                <Leaf size={24} />
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-lg shadow-sm border p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Team Members</p>
+                <p className="text-2xl font-bold text-gray-900">8</p>
+              </div>
+              <div className="text-blue-600">
+                <Users size={24} />
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-lg shadow-sm border p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Active Tasks</p>
+                <p className="text-2xl font-bold text-gray-900">12</p>
+              </div>
+              <div className="text-purple-600">
+                <CheckCircle size={24} />
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-lg shadow-sm border p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">This Week's Yield</p>
+                <p className="text-2xl font-bold text-gray-900">2.4T</p>
+              </div>
+              <div className="text-orange-600">
+                <TrendingUp size={24} />
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Interactive Map - full width */}
+        <div className="mb-6">
+          <Link href="/dashboard/map" className="block group">
+            <div className="relative h-56 md:h-64 w-full overflow-hidden rounded-xl border bg-gradient-to-br from-green-100 via-blue-50 to-green-100 shadow-sm">
+              <div className="absolute inset-0 grid grid-cols-6 grid-rows-3">
+                <div className="col-span-2 row-span-2 m-1 rounded bg-green-300/70"></div>
+                <div className="col-span-2 m-1 rounded bg-emerald-300/70"></div>
+                <div className="col-span-2 m-1 rounded bg-lime-300/70"></div>
+                <div className="col-span-3 m-1 rounded bg-teal-300/70"></div>
+                <div className="col-span-3 m-1 rounded bg-green-400/70"></div>
+              </div>
+              <div className="absolute top-3 left-3 flex items-center gap-1 bg-white/90 px-2 py-1 rounded shadow">
+                <MapPin className="w-4 h-4 text-red-600" />
+                <span className="text-xs font-medium text-gray-700">North Field</span>
+              </div>
+              <div className="absolute bottom-3 right-3 flex items-center gap-1 bg-white/90 px-2 py-1 rounded shadow">
+                <MapPin className="w-4 h-4 text-red-600" />
+                <span className="text-xs font-medium text-gray-700">South Field</span>
+              </div>
+              <div className="absolute inset-0 flex items-end justify-end p-3">
+                <span className="inline-flex items-center gap-2 bg-green-600 text-white text-xs md:text-sm font-semibold px-3 py-2 rounded-lg shadow group-hover:bg-green-700 transition-colors">
+                  <Map className="w-4 h-4" /> Open Map
+                </span>
+              </div>
+            </div>
+          </Link>
+        </div>
+
         {/* Field overview card */}
         <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
@@ -279,6 +365,12 @@ export default function Dashboard() {
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">{currentField.name}</h2>
                 <p className="text-gray-600">{t('dashboard.growing')} {currentField.crop}</p>
+                <div className="flex items-center gap-2 mt-2">
+                  <Calendar size={16} className="text-green-600" />
+                  <span className="text-sm text-gray-600 font-medium">
+                    Crop Age: {currentField.cropAge} days
+                  </span>
+                </div>
               </div>
             </div>
             <div className="text-right">
@@ -393,7 +485,7 @@ export default function Dashboard() {
         </div>
 
         {/* Navigation to team management and task tracking */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           <Link href="/team" className="block">
             <div className="p-6 bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow">
               <div className="flex items-center gap-3 mb-2">
@@ -431,6 +523,14 @@ export default function Dashboard() {
             </div>
             <p className="text-sm text-gray-600">{t('dashboard.navigation.irrigationDescription')}</p>
           </button>
+          
+          <Link href="/dashboard/map" className="block p-6 bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow text-left cursor-pointer">
+            <div className="flex items-center gap-3 mb-2">
+              <Map size={24} className="text-indigo-600" />
+              <h3 className="font-semibold text-gray-900">See Map</h3>
+            </div>
+            <p className="text-sm text-gray-600">View field locations and geographical layout</p>
+          </Link>
         </div>
       </div>
     </div>

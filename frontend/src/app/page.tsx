@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { Droplets, Volume2, BarChart3, User } from "lucide-react";
+import { Droplets, Sprout, BarChart3, User, Eye } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "../components/LanguageSelector";
 
@@ -40,7 +40,8 @@ export default function Home() {
           </h1>
           
           <p className="text-xl md:text-2xl text-gray-700 mb-12 max-w-3xl mx-auto leading-relaxed">
-            {t('homepage.description')}
+            AI-driven agricultural advisory platform that helps farmers optimize irrigation,
+            plan fertilization effectively, and maximize crop yields with real-time insights.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
@@ -55,7 +56,7 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mt-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-20">
             <div className="bg-white rounded-xl p-8 shadow-lg border border-green-100 hover:shadow-xl transition-shadow">
               <div className="flex justify-center mb-4">
                 <Droplets className="w-12 h-12 text-blue-600" />
@@ -66,13 +67,13 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-8 shadow-lg border border-blue-100 hover:shadow-xl transition-shadow">
+            <div className="bg-white rounded-xl p-8 shadow-lg border border-emerald-100 hover:shadow-xl transition-shadow">
               <div className="flex justify-center mb-4">
-                <Volume2 className="w-12 h-12 text-orange-600" />
+                <Sprout className="w-12 h-12 text-emerald-600" />
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-4">{t('homepage.features.pestDetection.title')}</h3>
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Fertilization</h3>
               <p className="text-gray-600 leading-relaxed">
-                {t('homepage.features.pestDetection.description')}
+                Plan nutrient schedules and optimize fertilizer application for healthier, higher-yield crops.
               </p>
             </div>
 
@@ -85,6 +86,19 @@ export default function Home() {
                 {t('homepage.features.dataAnalytics.description')}
               </p>
             </div>
+
+            {/* Field Monitoring entry */}
+            <Link href="/field-monitoring" className="block">
+              <div className="bg-white rounded-xl p-8 shadow-lg border border-blue-100 hover:shadow-xl transition-shadow cursor-pointer">
+                <div className="flex justify-center mb-4">
+                  <Eye className="w-12 h-12 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-4">Field Monitoring</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Track crop stages, age in months and days, and field health at a glance.
+                </p>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
