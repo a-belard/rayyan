@@ -1,9 +1,9 @@
 """Sensor Reading Model"""
-from sqlalchemy import Column, String, Float, ForeignKey, CheckConstraint
+from sqlalchemy import Column, String, Float, ForeignKey, CheckConstraint, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
-from .common import Base, UUID, TimestampMixin
+from .common import Base, UUID, TimestampMixin, uuid
 
 
 class SensorReading(Base, TimestampMixin):
@@ -11,12 +11,13 @@ class SensorReading(Base, TimestampMixin):
 
     __tablename__ = "sensor_readings"
 
+    id = Column(UUID, primary_key=True, default=uuid.uuid4, nullable=False)
     zone_id = Column(UUID, ForeignKey("farm_zones.id", ondelete="CASCADE"), nullable=False, index=True)
     soil_moisture = Column(Float, CheckConstraint("soil_moisture >= 0 AND soil_moisture <= 100"))
     temperature = Column(Float)  # celsius
     humidity = Column(Float, CheckConstraint("humidity >= 0 AND humidity <= 100"))
     soil_ph = Column(Float, CheckConstraint("soil_ph >= 0 AND soil_ph <= 14"))
-    reading_timestamp = Column(String, nullable=False, default=datetime.utcnow)
+    reading_timestamp = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     # Relationships
     zone = relationship("FarmZone", back_populates="sensor_readings")

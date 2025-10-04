@@ -3,7 +3,7 @@ from sqlalchemy import Column, String, Float, Date, Boolean, ForeignKey, CheckCo
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
-from .common import Base, UUID, TimestampMixin
+from .common import Base, UUID, TimestampMixin, uuid
 
 
 class PesticideInventory(Base, TimestampMixin):
@@ -11,6 +11,7 @@ class PesticideInventory(Base, TimestampMixin):
 
     __tablename__ = "pesticide_inventory"
 
+    id = Column(UUID, primary_key=True, default=uuid.uuid4, nullable=False)
     farm_id = Column(UUID, ForeignKey("farms.id", ondelete="CASCADE"), nullable=False, index=True)
     name = Column(String(255), nullable=False)
     product_type = Column(String(100))  # insecticide, fungicide, herbicide, fertilizer

@@ -3,7 +3,7 @@ from sqlalchemy import Column, String, Boolean, Date, ForeignKey, Text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
-from .common import Base, UUID, TimestampMixin
+from .common import Base, UUID, TimestampMixin, uuid
 
 
 class TeamMember(Base, TimestampMixin):
@@ -11,6 +11,7 @@ class TeamMember(Base, TimestampMixin):
 
     __tablename__ = "team_members"
 
+    id = Column(UUID, primary_key=True, default=uuid.uuid4, nullable=False)
     farm_id = Column(UUID, ForeignKey("farms.id", ondelete="CASCADE"), nullable=False, index=True)
     user_id = Column(UUID, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
     name = Column(String(255), nullable=False)

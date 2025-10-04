@@ -3,7 +3,7 @@ from sqlalchemy import Column, String, Float, Date, Integer, ForeignKey, CheckCo
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
-from .common import Base, UUID, TimestampMixin
+from .common import Base, UUID, TimestampMixin, uuid
 
 
 class WaterUsage(Base, TimestampMixin):
@@ -11,6 +11,7 @@ class WaterUsage(Base, TimestampMixin):
 
     __tablename__ = "water_usage"
 
+    id = Column(UUID, primary_key=True, default=uuid.uuid4, nullable=False)
     zone_id = Column(UUID, ForeignKey("farm_zones.id", ondelete="CASCADE"), nullable=False, index=True)
     usage_date = Column(Date, nullable=False)
     amount = Column(Float, CheckConstraint("amount >= 0"), nullable=False)  # liters

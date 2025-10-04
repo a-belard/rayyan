@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.core.config import settings
 from src.core.database import init_db, close_db
-from src.routers import threads, agent, auth, users, farms
+from src.routers import threads, agent, auth, users, farms, zones, team, tasks, yields_water, pesticides
 
 
 @asynccontextmanager
@@ -49,6 +49,13 @@ app.include_router(users.router, prefix=settings.api_v1_prefix, tags=["users"])
 app.include_router(farms.router, prefix=settings.api_v1_prefix, tags=["farms"])
 app.include_router(threads.router, prefix=settings.api_v1_prefix, tags=["threads"])
 app.include_router(agent.router, prefix=settings.api_v1_prefix, tags=["agent"])
+
+# Dashboard routers
+app.include_router(zones.router, prefix=settings.api_v1_prefix, tags=["zones"])
+app.include_router(team.router, prefix=settings.api_v1_prefix, tags=["team"])
+app.include_router(tasks.router, prefix=settings.api_v1_prefix, tags=["tasks"])
+app.include_router(yields_water.router, prefix=settings.api_v1_prefix, tags=["yields", "water"])
+app.include_router(pesticides.router, prefix=settings.api_v1_prefix, tags=["pesticides"])
 
 
 @app.get("/")

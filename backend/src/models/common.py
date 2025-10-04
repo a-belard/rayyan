@@ -9,4 +9,28 @@ import uuid
 
 from src.core.database import Base
 
-__all__ = ["Base", "Mapped", "mapped_column", "relationship", "datetime", "uuid"]
+# Alias for PGUUID to simplify imports
+UUID = PGUUID
+
+# Create TimestampMixin class
+class TimestampMixin:
+    """Mixin for adding timestamp fields to models."""
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
+
+__all__ = [
+    "Base", 
+    "Mapped", 
+    "mapped_column", 
+    "relationship", 
+    "datetime", 
+    "uuid",
+    "UUID",
+    "TimestampMixin",
+    "func",
+    "ForeignKey",
+    "String",
+    "Text",
+    "Integer",
+    "SAEnum",
+]

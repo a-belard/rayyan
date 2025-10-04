@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS team_members (
     farm_id UUID NOT NULL REFERENCES farms(id) ON DELETE CASCADE,
     user_id UUID REFERENCES users(id) ON DELETE SET NULL,  -- Link to users if they have account
     name VARCHAR(255) NOT NULL,
-    role VARCHAR(100) NOT NULL,  -- Senior Worker, Field Specialist, Equipment Operator, etc.
+    role VARCHAR(100) NOT NULL,  -- Farmer, or custom roles
     status VARCHAR(50) DEFAULT 'active',  -- active, break, off-duty, vacation
     current_zone_id UUID REFERENCES farm_zones(id) ON DELETE SET NULL,
     phone VARCHAR(20),
@@ -297,11 +297,11 @@ BEGIN
 
     -- Seed team members
     INSERT INTO team_members (id, farm_id, name, role, status, current_zone_id, phone, hired_date) VALUES
-    (uuid_generate_v4(), v_farm_id, 'Ahmed Hassan', 'Senior Worker', 'active', v_zone1_id, '+974-1234-5678', '2024-01-15'),
-    (uuid_generate_v4(), v_farm_id, 'Maria Rodriguez', 'Field Specialist', 'active', v_zone2_id, '+974-1234-5679', '2024-02-01'),
-    (uuid_generate_v4(), v_farm_id, 'John Smith', 'Equipment Operator', 'break', NULL, '+974-1234-5680', '2024-03-10'),
-    (uuid_generate_v4(), v_farm_id, 'Sarah Johnson', 'Quality Inspector', 'active', v_zone3_id, '+974-1234-5681', '2024-04-05'),
-    (uuid_generate_v4(), v_farm_id, 'Carlos Miguel', 'Irrigation Specialist', 'active', NULL, '+974-1234-5682', '2024-01-20');
+    (uuid_generate_v4(), v_farm_id, 'Ahmed Hassan', 'Farmer', 'active', v_zone1_id, '+974-1234-5678', '2024-01-15'),
+    (uuid_generate_v4(), v_farm_id, 'Maria Rodriguez', 'Farmer', 'active', v_zone2_id, '+974-1234-5679', '2024-02-01'),
+    (uuid_generate_v4(), v_farm_id, 'John Smith', 'Farmer', 'break', NULL, '+974-1234-5680', '2024-03-10'),
+    (uuid_generate_v4(), v_farm_id, 'Sarah Johnson', 'Farmer', 'active', v_zone3_id, '+974-1234-5681', '2024-04-05'),
+    (uuid_generate_v4(), v_farm_id, 'Carlos Miguel', 'Farmer', 'active', NULL, '+974-1234-5682', '2024-01-20');
 
     -- Get member IDs for task assignment
     SELECT id INTO v_member1_id FROM team_members WHERE farm_id = v_farm_id AND name = 'Ahmed Hassan';

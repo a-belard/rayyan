@@ -1,10 +1,10 @@
 """Farm Task Model"""
-from sqlalchemy import Column, String, Text, ForeignKey
+from sqlalchemy import Column, String, Text, ForeignKey, DateTime
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
-from .common import Base, UUID, TimestampMixin
+from .common import Base, UUID, TimestampMixin, uuid
 
 
 class FarmTask(Base, TimestampMixin):
@@ -12,6 +12,7 @@ class FarmTask(Base, TimestampMixin):
 
     __tablename__ = "farm_tasks"
 
+    id = Column(UUID, primary_key=True, default=uuid.uuid4, nullable=False)
     farm_id = Column(UUID, ForeignKey("farms.id", ondelete="CASCADE"), nullable=False, index=True)
     zone_id = Column(UUID, ForeignKey("farm_zones.id", ondelete="SET NULL"), nullable=True)
     assigned_to = Column(UUID, ForeignKey("team_members.id", ondelete="SET NULL"), nullable=True)
@@ -19,8 +20,8 @@ class FarmTask(Base, TimestampMixin):
     description = Column(Text)
     priority = Column(String(20), default="medium")  # high, medium, low
     status = Column(String(50), default="pending")  # pending, in-progress, completed, cancelled
-    due_date = Column(String, nullable=True)
-    completed_at = Column(String, nullable=True)
+    due_date = Column(DateTime, nullable=True)
+    completed_at = Column(DateTime, nullable=True)
     metadata_ = Column("metadata_", JSONB, default={})
     created_by = Column(UUID, ForeignKey("users.id"), nullable=True)
 
