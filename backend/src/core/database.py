@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from sqlalchemy.orm import declarative_base
 from supabase import create_client, Client
 
-from config import settings
+from src.core.config import settings
 
 # SQLAlchemy Base for ORM models
 Base = declarative_base()

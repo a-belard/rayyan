@@ -12,10 +12,10 @@ from datetime import datetime, timezone
 import json
 import logging
 
-from db import get_db
-from models import Thread, Message, Run, MessageRole, RunStatus
-from agent.builder import build_agricultural_agent
-from agent.system_prompt import get_system_prompt
+from src.core.database import get_db
+from src.models import Thread, Message, Run, MessageRole, RunStatus
+from src.agent.builder import build_agricultural_agent
+from src.agent.system_prompt import get_system_prompt
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 
 

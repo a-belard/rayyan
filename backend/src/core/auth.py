@@ -10,9 +10,9 @@ from typing import Optional
 import jwt
 from datetime import datetime
 
-from db import get_db, get_supabase_client
-from models import User, UserRole, UserStatus
-from config import settings
+from src.core.database import get_db, get_supabase_client
+from src.models import User, UserRole
+from src.core.config import settings
 
 
 # HTTP Bearer token scheme for FastAPI
@@ -27,24 +27,18 @@ class AuthUser:
         id: str,
         email: str,
         role: UserRole,
-        status: UserStatus,
         full_name: Optional[str] = None,
         metadata: dict = None,
     ):
         self.id = id
         self.email = email
         self.role = role
-        self.status = status
         self.full_name = full_name
         self.metadata = metadata or {}
     
     def is_admin(self) -> bool:
         """Check if user is admin."""
         return self.role == UserRole.admin
-    
-    def is_active(self) -> bool:
-        """Check if user account is active."""
-        return self.status == UserStatus.active
     
     def has_permission(self, required_role: UserRole) -> bool:
         """Check if user has required role permission."""
@@ -109,13 +103,6 @@ async def get_current_user(
                 detail="User not found in database",
             )
         
-        # Check if user is active
-        if user.status != UserStatus.active:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"User account is {user.status.value}",
-            )
-        
         # Update last login time
         user.last_login_at = datetime.utcnow()
         await db.commit()
@@ -124,7 +111,6 @@ async def get_current_user(
             id=user.id,
             email=user.email,
             role=user.role,
-            status=user.status,
             full_name=user.full_name,
             metadata=user.metadata_,
         )
@@ -201,27 +187,8 @@ def require_role(required_role: UserRole):
     return role_checker
 
 
-def require_active():
-    """
-    Dependency to require active user status.
-    
-    Example:
-        @app.post("/threads")
-        async def create_thread(
-            current_user: AuthUser = Depends(require_active())
-        ):
-            # Only active users can create threads
-            pass
-    """
-    async def status_checker(user: AuthUser = Depends(get_current_user)) -> AuthUser:
-        if not user.is_active():
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"User account is {user.status.value}",
-            )
-        return user
-    
-    return status_checker
+# Note: require_active() function removed since user status field was removed
+# All authenticated users are considered active by default
 
 
 async def verify_thread_ownership(
@@ -251,7 +218,7 @@ async def verify_thread_ownership(
                 raise HTTPException(403, "Access denied")
             # ... rest of logic
     """
-    from models import Thread
+    from src.models import Thread
     
     result = await db.execute(
         select(Thread).where(
@@ -279,7 +246,7 @@ async def verify_farm_ownership(
     Returns:
         bool: True if user owns the farm
     """
-    from models import Farm
+    from src.models import Farm
     
     result = await db.execute(
         select(Farm).where(
@@ -295,4 +262,3 @@ async def verify_farm_ownership(
 RequireAdmin = Depends(require_role(UserRole.admin))
 RequireAgronomist = Depends(require_role(UserRole.agronomist))
 RequireFarmer = Depends(require_role(UserRole.farmer))
-RequireActive = Depends(require_active())

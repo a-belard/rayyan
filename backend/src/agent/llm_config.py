@@ -4,7 +4,7 @@ LLM configuration and initialization for the agricultural agent.
 
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
-from config import settings
+from src.core.config import settings
 
 
 def get_llm(provider: str | None = None, model: str | None = None, temperature: float | None = None):

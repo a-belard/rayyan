@@ -3,9 +3,9 @@ Agent builder using LangGraph to create the agricultural advisory agent.
 """
 
 from langgraph.prebuilt import create_react_agent
-from agent.llm_config import get_llm
-from agent.tools import create_agricultural_tools
-from agent.system_prompt import get_system_prompt
+from src.agent.llm_config import get_llm
+from src.agent.tools import create_agricultural_tools
+from src.agent.system_prompt import get_system_prompt
 
 
 def build_agricultural_agent(llm_provider: str | None = None, llm_model: str | None = None):

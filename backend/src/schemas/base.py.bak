@@ -2,82 +2,103 @@
 Pydantic schemas for user management API.
 """
 
-from pydantic import BaseModel, EmailStr, Field, field_validator
+from pydantic import BaseModel, EmailStr, Field, field_validator, ConfigDict
 from typing import Optional, List
 from datetime import datetime
-from models import UserRole, UserStatus
+from models import UserRole
 
 
 # ==================== User Schemas ====================
 
 class UserBase(BaseModel):
-    """Base user schema."""
+    """Base user schema with common fields."""
     email: EmailStr
     full_name: Optional[str] = None
     phone: Optional[str] = None
     role: UserRole = UserRole.farmer
     organization_name: Optional[str] = None
     farm_location: Optional[str] = None
-    farm_size_hectares: Optional[float] = None
-    primary_crops: List[str] = Field(default_factory=list)
+    farm_size_hectares: Optional[float] = Field(None, gt=0)
 
 
 class UserCreate(UserBase):
-    """Schema for creating a new user (via Supabase Auth)."""
+    """Schema for user registration."""
     password: str = Field(..., min_length=8)
+    
+    @field_validator('password')
+    @classmethod
+    def validate_password(cls, v: str) -> str:
+        if len(v) < 8:
+            raise ValueError('Password must be at least 8 characters')
+        return v
 
 
 class UserUpdate(BaseModel):
     """Schema for updating user profile."""
     full_name: Optional[str] = None
     phone: Optional[str] = None
-    bio: Optional[str] = None
     avatar_url: Optional[str] = None
     organization_name: Optional[str] = None
     farm_location: Optional[str] = None
-    farm_size_hectares: Optional[float] = None
-    primary_crops: Optional[List[str]] = None
+    farm_size_hectares: Optional[float] = Field(None, gt=0)
     preferences: Optional[dict] = None
 
 
 class UserAdminUpdate(UserUpdate):
-    """Schema for admin updating user (includes role and status)."""
+    """Schema for admin-only user updates."""
     role: Optional[UserRole] = None
-    status: Optional[UserStatus] = None
     subscription_tier: Optional[str] = None
     subscription_expires_at: Optional[datetime] = None
 
 
 class UserResponse(BaseModel):
-    """Schema for user response."""
+    """User profile response with stats."""
+    model_config = ConfigDict(from_attributes=True)
+    
     id: str
     email: str
     full_name: Optional[str]
     phone: Optional[str]
     role: UserRole
-    status: UserStatus
     avatar_url: Optional[str]
-    bio: Optional[str]
     organization_name: Optional[str]
     farm_location: Optional[str]
     farm_size_hectares: Optional[float]
-    primary_crops: List[str]
     preferences: dict
     subscription_tier: Optional[str]
     subscription_expires_at: Optional[datetime]
     created_at: datetime
     updated_at: datetime
     last_login_at: Optional[datetime]
-    
-    # Computed fields
     thread_count: Optional[int] = None
     farm_count: Optional[int] = None
-
-    model_config = {"from_attributes": True}
+    
+    @classmethod
+    def from_orm_with_counts(cls, user, thread_count: int = 0, farm_count: int = 0):
+        """Helper to create response with computed counts."""
+        return cls(
+            id=str(user.id),
+            email=user.email,
+            full_name=user.full_name,
+            phone=user.phone,
+            role=user.role,
+            avatar_url=user.avatar_url,
+            organization_name=user.organization_name,
+            farm_location=user.farm_location,
+            farm_size_hectares=user.farm_size_hectares,
+            preferences=user.preferences,
+            subscription_tier=user.subscription_tier,
+            subscription_expires_at=user.subscription_expires_at,
+            created_at=user.created_at,
+            updated_at=user.updated_at,
+            last_login_at=user.last_login_at,
+            thread_count=thread_count,
+            farm_count=farm_count,
+        )
 
 
 class UserListResponse(BaseModel):
-    """Schema for paginated user list."""
+    """Paginated user list response."""
     users: List[UserResponse]
     total: int
     page: int
@@ -87,12 +108,12 @@ class UserListResponse(BaseModel):
 # ==================== Farm Schemas ====================
 
 class FarmZone(BaseModel):
-    """Schema for farm zone."""
+    """Farm zone/sub-area definition."""
     id: str
     name: str
     crop: Optional[str] = None
     crop_variety: Optional[str] = None
-    area_hectares: Optional[float] = None
+    area_hectares: Optional[float] = Field(None, gt=0)
     planting_date: Optional[str] = None
     growth_stage: Optional[str] = None
     sensors: List[str] = Field(default_factory=list)
@@ -113,7 +134,7 @@ class FarmBase(BaseModel):
 
 
 class FarmCreate(FarmBase):
-    """Schema for creating a new farm."""
+    """Schema for creating farm."""
     pass
 
 
@@ -133,7 +154,9 @@ class FarmUpdate(BaseModel):
 
 
 class FarmResponse(BaseModel):
-    """Schema for farm response."""
+    """Farm response with owner info."""
+    model_config = ConfigDict(from_attributes=True, populate_by_name=True)
+    
     id: str
     owner_id: str
     name: str
@@ -149,26 +172,22 @@ class FarmResponse(BaseModel):
     is_active: bool
     created_at: datetime
     updated_at: datetime
-    
-    # Optional: Include owner info
     owner_email: Optional[str] = None
     owner_name: Optional[str] = None
 
-    model_config = {"from_attributes": True, "populate_by_name": True}
-
 
 class FarmListResponse(BaseModel):
-    """Schema for paginated farm list."""
+    """Paginated farm list response."""
     farms: List[FarmResponse]
     total: int
     page: int
     page_size: int
 
 
-# ==================== Thread Schemas (Updated) ====================
+# ==================== Thread Schemas ====================
 
 class ThreadCreate(BaseModel):
-    """Schema for creating a new thread."""
+    """Schema for creating thread."""
     title: Optional[str] = None
     farm_id: Optional[str] = None
     metadata_: dict = Field(default_factory=dict, alias="metadata")
@@ -183,7 +202,9 @@ class ThreadUpdate(BaseModel):
 
 
 class ThreadResponse(BaseModel):
-    """Schema for thread response."""
+    """Thread response with farm info."""
+    model_config = ConfigDict(from_attributes=True, populate_by_name=True)
+    
     id: str
     user_id: str
     farm_id: Optional[str]
@@ -193,18 +214,12 @@ class ThreadResponse(BaseModel):
     last_message_at: Optional[datetime]
     created_at: datetime
     updated_at: datetime
-    
-    # Computed fields
     message_count: Optional[int] = None
-    
-    # Optional: Include farm info
     farm_name: Optional[str] = None
-
-    model_config = {"from_attributes": True, "populate_by_name": True}
 
 
 class ThreadListResponse(BaseModel):
-    """Schema for paginated thread list."""
+    """Paginated thread list response."""
     threads: List[ThreadResponse]
     total: int
     page: int
@@ -214,7 +229,7 @@ class ThreadListResponse(BaseModel):
 # ==================== Utility Schemas ====================
 
 class PreferencesUpdate(BaseModel):
-    """Schema for updating user preferences."""
+    """User preferences update."""
     language: Optional[str] = None
     timezone: Optional[str] = None
     notifications_enabled: Optional[bool] = None
@@ -226,7 +241,7 @@ class PreferencesUpdate(BaseModel):
 
 
 class UserStatsResponse(BaseModel):
-    """Schema for user statistics."""
+    """User statistics summary."""
     total_threads: int
     active_threads: int
     total_messages: int
@@ -238,7 +253,7 @@ class UserStatsResponse(BaseModel):
 
 
 class ErrorResponse(BaseModel):
-    """Schema for error responses."""
+    """Standard error response."""
     detail: str
     code: Optional[str] = None
     timestamp: datetime = Field(default_factory=datetime.utcnow)

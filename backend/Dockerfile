@@ -39,8 +39,10 @@ COPY --from=builder /opt/venv /opt/venv
 # Set working directory
 WORKDIR /app
 
-# Copy application code
-COPY . .
+# Copy application code (new src/ structure)
+COPY src/ ./src/
+COPY migrations/ ./migrations/
+COPY pyproject.toml uv.lock* ./
 
 # Create non-root user for security
 RUN useradd -m -u 1000 rayyan && \
@@ -56,4 +58,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
 # Run the application
-CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["python", "-m", "src.main"]

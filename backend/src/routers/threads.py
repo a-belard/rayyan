@@ -9,8 +9,8 @@ from typing import List
 from pydantic import BaseModel
 from datetime import datetime
 
-from db import get_db
-from models import Thread, MessageRole
+from src.core.database import get_db
+from src.models import Thread, MessageRole
 
 
 router = APIRouter(prefix="/threads", tags=["threads"])
@@ -65,7 +65,7 @@ async def list_threads(
     response = []
     for thread in threads:
         # Count messages
-        from models import Message
+        from src.models import Message
         count_stmt = select(func.count()).select_from(Message).where(Message.thread_id == thread.id)
         count_result = await db.execute(count_stmt)
         msg_count = count_result.scalar() or 0
@@ -130,7 +130,7 @@ async def get_thread(
         raise HTTPException(status_code=404, detail="Thread not found")
     
     # Count messages
-    from models import Message
+    from src.models import Message
     count_stmt = select(func.count()).select_from(Message).where(Message.thread_id == thread.id)
     count_result = await db.execute(count_stmt)
     msg_count = count_result.scalar() or 0
@@ -172,7 +172,7 @@ async def update_thread(
     await db.refresh(thread)
     
     # Count messages
-    from models import Message
+    from src.models import Message
     count_stmt = select(func.count()).select_from(Message).where(Message.thread_id == thread.id)
     count_result = await db.execute(count_stmt)
     msg_count = count_result.scalar() or 0
